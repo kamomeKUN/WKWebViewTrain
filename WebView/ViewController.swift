@@ -79,6 +79,8 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler {
         _toolBar.frame = frame
         // ツールバーの位置を決める
         _toolBar.layer.position = position
+        // ツールバーのTintColorを設定する
+        _toolBar.barTintColor = UIColor.white
         // 文字色を設定する
         _toolBar.tintColor = UIColor.black
         // 背景色を設定する
@@ -128,15 +130,13 @@ class ViewController: UIViewController, WKUIDelegate, WKScriptMessageHandler {
         let url = self.webView.url
         UIApplication.shared.open(url!, options: [:], completionHandler: nil)
     }
-
-
 }
 
 
 extension ViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        print("Before Request")
+        print("リクエスト前")
         let url = navigationAction.request.url
         print("読み込むURL : \(url)")
         decisionHandler(.allow)
@@ -148,7 +148,7 @@ extension ViewController: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-        print("After Response")
+        print("リクエスト後")
         decisionHandler(.allow)
     }
     
@@ -162,6 +162,8 @@ extension ViewController: WKNavigationDelegate {
             
             if complete != nil {
                 print("test : \(webView.scrollView.contentSize)")
+                print("test : \(webView.scrollView.frame.height + webView.scrollView.contentOffset.y)")
+                print("test : \(self.mainView.frame.size.height)")
             }
         }
         indicator.stopAnimating()
